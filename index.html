@@ -75,21 +75,39 @@ body[data-theme="colorful"]{--primary:#7C3AED;--primary-soft:#F5F3FF;--primary-s
 body[data-theme="soft"]{--paper:#EFF6FF;--primary:#2563EB;--primary-soft:#DBEAFE;--primary-strong:#1E40AF}
 body[data-theme="forest"]{--paper:#F0FDF4;--primary:#15803D;--primary-soft:#DCFCE7;--primary-strong:#166534}
 body[data-theme="sunset"]{--paper:#FFF7ED;--primary:#C2410C;--primary-soft:#FFEDD5;--primary-strong:#9A3412}
+
+.navic svg{width:22px;height:22px;display:block}
+.section-hero{display:flex;gap:16px;align-items:center;border-radius:20px;padding:20px 22px;margin-bottom:16px;box-shadow:var(--shadow)}
+.section-hero h1{margin:4px 0 6px}
+.hero-icon svg{width:30px;height:30px;display:block}
+.hero-art svg{width:118px;height:82px;display:block}
+.plan-hero{background:linear-gradient(135deg,#EDE9FE,#FFFFFF)} .plan-hero .hero-icon{color:#7C3AED}
+.habits-hero{background:linear-gradient(135deg,#DCFCE7,#FFFFFF)} .habits-hero .hero-icon{color:#059669}
+.capture-hero{background:linear-gradient(135deg,#FEF3C7,#FFFFFF)} .capture-hero .hero-icon{color:#D97706}
+.insights-hero{background:linear-gradient(135deg,#DBEAFE,#FFFFFF)} .insights-hero .hero-icon{color:#2563EB}
+.upcoming-hero{background:linear-gradient(135deg,#FFE4E6,#FFFFFF)} .upcoming-hero .hero-icon{color:#E11D48}
+.settings-hero{background:linear-gradient(135deg,#E2E8F0,#FFFFFF)} .settings-hero .hero-icon{color:#475569}
+body[data-page="today"]{--paper:#F8F7F4} body[data-page="plan"]{--paper:#F5F3FF} body[data-page="habits"]{--paper:#F0FDF4}
+body[data-page="capture"]{--paper:#FFFBEB} body[data-page="insights"]{--paper:#EFF6FF} body[data-page="upcoming"]{--paper:#FFF1F2} body[data-page="settings"]{--paper:#F8FAFC}
+#page-today .card{border-top:3px solid #0F766E} #page-plan .card{border-top:3px solid #7C3AED} #page-habits .card{border-top:3px solid #059669}
+#page-capture .card{border-top:3px solid #D97706} #page-insights .card{border-top:3px solid #2563EB} #page-upcoming .card{border-top:3px solid #E11D48} #page-settings .card{border-top:3px solid #475569}
+@media(max-width:700px){.hero-art{display:none}}
+
 </style>
 </head>
-<body>
+<body data-page="today">
 <div style="background:#DC2626;color:#fff;text-align:center;padding:10px;font-weight:700">DEMO PREVIEW - This demo shows example data. It is not the paid file.</div>
 <div class="layout"><aside class="sidebar">
 <div class="brand"><i>●</i> Life Planner</div>
 <p class="small muted">Daily planner, task and habit tracker, for phone and computer.</p>
 <nav aria-label="Main navigation">
-<button data-tab="today" class="navbtn active"><span class="navic">☀</span><span><b>Today</b><small>Start my day</small></span></button>
-<button data-tab="plan" class="navbtn"><span class="navic">✓</span><span><b>Plan</b><small>Tasks and schedule</small></span></button>
-<button data-tab="habits" class="navbtn"><span class="navic">◉</span><span><b>Habits</b><small>Habits and routines</small></span></button>
-<button data-tab="capture" class="navbtn"><span class="navic">✎</span><span><b>Capture</b><small>Brain Dump, goals, wins</small></span></button>
-<button data-tab="insights" class="navbtn"><span class="navic">▦</span><span><b>Insights</b><small>Charts and weekly review</small></span></button>
-<button data-tab="upcoming" class="navbtn"><span class="navic">⏰</span><span><b>Upcoming</b><small>Reminders and calendar</small></span></button>
-<button data-tab="settings" class="navbtn"><span class="navic">⚙</span><span><b>Settings</b><small>Profile and data</small></span></button>
+<button data-tab="today" class="navbtn active"><span class="navic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span><b>Today</b><small>Start my day</small></span></button>
+<button data-tab="plan" class="navbtn"><span class="navic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg></span><span><b>Plan</b><small>Tasks and schedule</small></span></button>
+<button data-tab="habits" class="navbtn"><span class="navic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg></span><span><b>Habits</b><small>Habits and routines</small></span></button>
+<button data-tab="capture" class="navbtn"><span class="navic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><span><b>Capture</b><small>Brain Dump, goals, wins</small></span></button>
+<button data-tab="insights" class="navbtn"><span class="navic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15v-4M12 15V7M17 15v-7"/></svg></span><span><b>Insights</b><small>Charts and weekly review</small></span></button>
+<button data-tab="upcoming" class="navbtn"><span class="navic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><span><b>Upcoming</b><small>Reminders and calendar</small></span></button>
+<button data-tab="settings" class="navbtn"><span class="navic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="17" r="2" fill="currentColor" stroke="none"/></svg></span><span><b>Settings</b><small>Profile and data</small></span></button>
 </nav>
 <div class="glance"><h3>Today at a glance</h3><p id="sideSummary" class="small muted"></p><button id="weatherPill" class="ghost">Brain Weather →</button></div>
 </aside>
@@ -109,7 +127,7 @@ body[data-theme="sunset"]{--paper:#FFF7ED;--primary:#C2410C;--primary-soft:#FFED
 <div class="hero">
 <div class="flex">
 <div class="grow"><div class="kicker">Your next small step</div><div class="big" id="nextStep">Add one small thing.</div><p id="heroSub" class="small muted"></p></div>
-<svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="rgba(15,118,110,.18)" stroke-width="10"/><circle id="ringArc" cx="50" cy="50" r="42" fill="none" stroke="#0F766E" stroke-width="10" stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="264" stroke-dashoffset="264"/><text x="50" y="56" id="ringText">0/0</text></svg>
+<div class="hero-art" style="margin-right:8px"><svg viewBox="0 0 120 80" aria-hidden="true"><circle cx="32" cy="26" r="14" fill="#FDE68A"/><circle cx="32" cy="26" r="8" fill="#F59E0B"/><ellipse cx="78" cy="52" rx="26" ry="14" fill="#FFFFFF" stroke="#CCFBF1"/><ellipse cx="60" cy="44" rx="18" ry="12" fill="#F0FDFA" stroke="#CCFBF1"/><path d="M16 66h88" stroke="#0F766E" stroke-width="3" stroke-linecap="round"/></svg></div><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="rgba(15,118,110,.18)" stroke-width="10"/><circle id="ringArc" cx="50" cy="50" r="42" fill="none" stroke="#0F766E" stroke-width="10" stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="264" stroke-dashoffset="264"/><text x="50" y="56" id="ringText">0/0</text></svg>
 </div>
 <div class="flex" style="margin-top:16px"><button class="primary" id="focusStartBtn" >▶ Start 5 minutes</button><button id="focusPauseBtn" >Pause</button><span id="focusOut" style="font-weight:700">No focus session running.</span></div>
 </div>
@@ -122,6 +140,7 @@ body[data-theme="sunset"]{--paper:#FFF7ED;--primary:#C2410C;--primary-soft:#FFED
 
 <div class="card"><h2>Today's Three</h2><p class="muted">Three means three. Finishing one does not pull in another.</p><div id="todayThree"></div></div>
 
+<div class="card"><h2>This week at a glance</h2><p class="small muted">Tasks finished each day, last 7 days. Small bars still count.</p><canvas id="chartTodayMini" width="520" height="240"></canvas></div>
 <div class="card"><h2>What is happening now</h2><div id="todayList"></div>
 <div class="flex" style="margin-top:12px"><button id="closeDayBtn">Close the Day</button><button id="welcomeBtn">Welcome Back</button><button class="ghost" id="resetBtn">Weekly Reset →</button></div><p id="dayOut" class="small muted"></p></div>
 
@@ -136,7 +155,7 @@ body[data-theme="sunset"]{--paper:#FFF7ED;--primary:#C2410C;--primary-soft:#FFED
 
 <!-- PLAN -->
 <section class="page" id="page-plan" aria-label="Plan">
-<h1>Plan</h1><p class="muted">Tasks and schedule, together, because a task without a time is just a wish.</p>
+<div class="section-hero plan-hero"><div class="grow"><span class="hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 16l2 2 4-4"/></svg></span><h1>Plan</h1><p class="muted">Tasks and schedule, together, because a task without a time is just a wish.</p></div><div class="hero-art"><svg viewBox="0 0 120 80" aria-hidden="true"><rect x="14" y="10" width="92" height="60" rx="8" fill="#FFFFFF" stroke="#DDD6FE"/><rect x="14" y="10" width="92" height="16" rx="8" fill="#7C3AED"/><path d="M30 4v10M90 4v10" stroke="#7C3AED" stroke-width="3" stroke-linecap="round"/><path d="M30 40l6 6 12-12M30 58l6 6 12-12" stroke="#059669" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="66" y="36" width="26" height="8" rx="4" fill="#EDE9FE"/><rect x="66" y="54" width="26" height="8" rx="4" fill="#EDE9FE"/></svg></div></div>
 <div class="chips" role="group" aria-label="Task filters">
 <button class="chip active" data-filter="all">All</button><button class="chip" data-filter="today">Today</button><button class="chip" data-filter="soon">Due soon</button><button class="chip" data-filter="later">Later</button><button class="chip" data-filter="done">Done</button>
 </div>
@@ -161,17 +180,19 @@ body[data-theme="sunset"]{--paper:#FFF7ED;--primary:#C2410C;--primary-soft:#FFED
 <div class="card"><h2>Running late?</h2><p class="muted">See a revised plan before anything changes.</p>
 <label>Minutes late <input id="lateMinutes" type="number" value="30"></label><button id="lateBtn" style="margin-top:10px">Preview revised plan</button><button id="lateApplyBtn">Apply this reshuffle</button><p id="lateOut"></p></div>
 <div class="card"><h2>This week</h2><div id="weekGrid" class="weekgrid"></div><div class="flex" style="margin-top:10px"><label class="grow">Add to a day <input id="weekAddTitle" placeholder="Task title"></label><label>Date <input id="weekAddDay" type="date"></label><button class="primary" id="weekAddBtn">Add task</button></div></div>
+<div class="card"><h2>Workload ahead</h2><p class="small muted">Tasks planned each day for the next 7 days. If one day is overloaded, move a task to a lighter day.</p><canvas id="chartPlanWeek" width="520" height="240"></canvas></div>
 <div class="card"><h2>Month</h2><div class="flex"><button id="monthPrevBtn">← Previous month</button><b id="monthTitle"></b><button id="monthNextBtn">Next month →</button></div><div id="monthGrid" class="monthgrid" style="margin-top:10px"></div><div id="monthDayDetail" style="margin-top:10px"></div><div class="flex" style="margin-top:10px"><label class="grow">Add to selected day <input id="monthAddTitle" placeholder="Task title"></label><button class="primary" id="monthAddBtn">Add task</button></div></div>
 </section>
 
 <!-- HABITS -->
 <section class="page" id="page-habits" aria-label="Habits">
-<h1>Habits &amp; Routines</h1><p class="muted">Tiny still counts. Nothing resets because you missed a day.</p>
+<div class="section-hero habits-hero"><div class="grow"><span class="hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg></span><h1>Habits &amp; Routines</h1><p class="muted">Tiny still counts. Nothing resets because you missed a day.</p></div><div class="hero-art"><svg viewBox="0 0 120 80" aria-hidden="true"><ellipse cx="60" cy="70" rx="34" ry="6" fill="#BBF7D0"/><path d="M60 66V34" stroke="#059669" stroke-width="4" stroke-linecap="round"/><path d="M60 46C48 46 40 38 40 28c12 0 20 8 20 18ZM60 40c12 0 20-8 20-18-12 0-20 8-20 18Z" fill="#34D399"/><path d="M38 66h44l-6 10H44Z" fill="#F97316"/><circle cx="98" cy="14" r="8" fill="#FDE68A"/><circle cx="22" cy="18" r="5" fill="#A7F3D0"/></svg></div></div>
 <div class="card"><h2>This week</h2><div id="habitList"></div>
 <div class="flex"><label class="grow">Habit <input id="habitName" placeholder="e.g. Read"></label><label class="grow">Tiny version <input id="habitTiny" placeholder="e.g. Read one page"></label><label class="grow">Cue: after I... <input id="habitCue" placeholder="e.g. finish breakfast"></label></div>
 <div class="card" style="margin:16px 0 0"><h2>Habit detail</h2><div id="habitDetail" class="small muted">Tap a habit card above to see its detail, weekly count, and past days.</div></div>
 <button class="primary" id="habitBtn" style="margin-top:10px">Add habit</button>
 <div class="flex" style="margin-top:10px"><button id="habitFullBtn">Mark today FULL</button><button id="habitTinyBtn">Mark today TINY</button><button id="habitBackBtn">Fill in yesterday</button></div><p id="habitOut" class="small muted"></p></div>
+<div class="card"><h2>Habit momentum</h2><p class="small muted">Percent of counted days, last 28 days or since you started. Rest days are ignored.</p><canvas id="chartHabitsMini" width="520" height="240"></canvas></div>
 <div class="card"><h2>Routine player</h2><div id="routineList"></div>
 <label><input id="shortCheck" type="checkbox"> Short version only (essential steps)</label>
 <div class="flex"><label class="grow">New routine <input id="routineName" placeholder="e.g. Quick Room Reset"></label><label class="grow">Steps, one per line <textarea id="routineSteps" rows="3" placeholder="Pick up loose items
@@ -183,22 +204,24 @@ Take out rubbish"></textarea></label></div><button class="primary" id="routineAd
 
 <!-- CAPTURE -->
 <section class="page" id="page-capture" aria-label="Capture">
-<h1>Capture</h1><p class="muted">Get it out of your head, then sort it one thought at a time. You never have to stare at the whole list.</p>
+<div class="section-hero capture-hero"><div class="grow"><span class="hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span><h1>Capture</h1><p class="muted">Get it out of your head, then sort it one thought at a time. You never have to stare at the whole list.</p></div><div class="hero-art"><svg viewBox="0 0 120 80" aria-hidden="true"><path d="M60 8a20 20 0 0 0-12 36c2 2 4 4 4 7h16c0-3 2-5 4-7a20 20 0 0 0-12-36Z" fill="#FCD34D"/><rect x="52" y="52" width="16" height="6" rx="3" fill="#92400E"/><rect x="56" y="60" width="8" height="6" rx="3" fill="#92400E"/><path d="M30 22l-8-4M90 22l8-4M24 38l-9 2M96 38l9 2" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/><rect x="8" y="56" width="26" height="14" rx="3" fill="#FFFFFF" stroke="#FDE68A"/><rect x="86" y="56" width="26" height="14" rx="3" fill="#FFFFFF" stroke="#FDE68A"/></svg></div></div>
 <div class="card" style="background:var(--primary-soft);border-color:transparent"><h2 id="dumpFeaturedTitle">One thought at a time</h2><p id="dumpFeatured" style="font-size:20px;font-weight:700"></p>
 <div class="flex"><button class="primary" id="sortTodayBtn">Do today</button><button id="sortTaskBtn">Make it a task</button><button id="sortLaterBtn">Later</button><button id="sortNoteBtn">Save as note</button><button id="sortGoBtn">Let it go</button></div><p id="dumpOut" class="small muted"></p></div>
 <div class="card"><h2>All thoughts</h2><div id="dumpList"></div>
 <div class="flex"><input id="dumpEntry" placeholder="What is on your mind?" style="flex:1"><button class="primary" id="dumpBtn">Add thought</button><button id="dumpVoiceBtn">🎤 Dictate</button></div><p id="dumpVoiceOut" class="small muted"></p></div>
+<div class="card"><h2>Brain Dump at a glance</h2><p class="small muted">Where your thoughts stand: open, sorted, parked, saved, or let go on purpose.</p><canvas id="chartDump" width="520" height="240"></canvas></div>
 <div class="card"><h2>Notes</h2><label>Search notes <input id="noteSearch" placeholder="Search title or body"></label><div id="noteList"></div><div class="flex"><label class="grow">Title <input id="noteTitle" placeholder="Note title"></label><label class="grow">Area <input id="noteArea" placeholder="e.g. Home"></label><label>Colour <select id="noteColour"><option>Teal</option><option>Violet</option><option>Amber</option><option>Grey</option></select></label></div><label>Body <textarea id="noteBody" rows="3" placeholder="Write the note here"></textarea></label><button class="primary" id="noteBtn" style="margin-top:10px">Add note</button></div>
 <div class="card"><h2>Goals</h2><div id="goalList"></div>
 <div class="chips" role="group" aria-label="Goal filter"><button class="chip active" data-goalfilter="all">All</button><button class="chip" data-goalfilter="open">In progress</button><button class="chip" data-goalfilter="done">Finished</button></div>
 <div class="flex"><label class="grow">Goal or project <input id="goalTitle"></label><label>Type <select id="goalType"><option>Goal</option><option>Project</option></select></label><label>Target date <input id="goalTarget" type="date"></label><label class="grow">Why it matters <input id="goalWhy"></label><label class="grow">Next step <input id="goalNext"></label></div><button class="primary" id="goalBtn" style="margin-top:10px">Add goal</button></div>
+<div class="card"><h2>Goal progress</h2><p class="small muted">Milestones finished for each goal or project. A finished goal shows 100%.</p><canvas id="chartGoals" width="520" height="240"></canvas></div>
 <div class="card"><h2>Wins Jar</h2><div id="winList"></div>
 <div class="flex"><input id="winEntry" placeholder="Add a win, however small" style="flex:1"><button class="primary" id="winBtn">Add a win</button></div></div>
 </section>
 
 <!-- INSIGHTS -->
 <section class="page" id="page-insights" aria-label="Insights">
-<h1>Insights</h1><p class="muted">What you did, never what you did not. Progress does not disappear because of an imperfect week.</p>
+<div class="section-hero insights-hero"><div class="grow"><span class="hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 15v-4M12 15V7M17 15v-7"/></svg></span><h1>Insights</h1><p class="muted">What you did, never what you did not. Progress does not disappear because of an imperfect week.</p></div><div class="hero-art"><svg viewBox="0 0 120 80" aria-hidden="true"><rect x="8" y="8" width="104" height="64" rx="8" fill="#FFFFFF" stroke="#BFDBFE"/><rect x="24" y="44" width="14" height="18" rx="3" fill="#93C5FD"/><rect x="46" y="32" width="14" height="30" rx="3" fill="#2563EB"/><rect x="68" y="38" width="14" height="24" rx="3" fill="#0F766E"/><rect x="90" y="22" width="14" height="40" rx="3" fill="#7C3AED"/><path d="M20 20l14-6 16 8 18-10" stroke="#D97706" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div></div>
 <div class="card"><div class="flex" id="insightStats"></div><button class="primary" id="chartBtn">Refresh charts</button><p id="accuracyOut" class="small muted"></p><h3 style="margin-top:14px">Days with anything done</h3><div id="doneCalendar" class="dotrow"></div></div>
 <div class="card"><h2>Weekly Reset, guided</h2><p class="muted">Look back, choose three things for next week, and leave breathing room on busy days.</p><p id="wrOut" class="small muted"></p><p id="wrBusiest" class="small muted"></p><div class="flex"><label class="grow">Priority 1 <input id="wrTop1"></label><label class="grow">Priority 2 <input id="wrTop2"></label><label class="grow">Priority 3 <input id="wrTop3"></label></div><button class="primary" id="wrSaveBtn" style="margin-top:10px">Save my top three</button></div>
 <div class="card"><h2>Tasks completed</h2><p class="small muted">Per day, last 14 days. The amber bar is today.</p><canvas id="chartTasks" width="520" height="240"></canvas></div>
@@ -211,8 +234,9 @@ Take out rubbish"></textarea></label></div><button class="primary" id="routineAd
 
 <!-- UPCOMING -->
 <section class="page" id="page-upcoming" aria-label="Upcoming">
-<h1>Upcoming</h1><p class="muted">Reminders, deadlines, and routines ahead. Reminders here are shown while the app is open only, not when it is closed.</p>
+<div class="section-hero upcoming-hero"><div class="grow"><span class="hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><h1>Upcoming</h1><p class="muted">Reminders, deadlines, and routines ahead. Reminders here are shown while the app is open only, not when it is closed.</p></div><div class="hero-art"><svg viewBox="0 0 120 80" aria-hidden="true"><circle cx="52" cy="40" r="26" fill="#FFFFFF" stroke="#FDA4AF" stroke-width="3"/><path d="M52 26v14l10 6" stroke="#E11D48" stroke-width="3" stroke-linecap="round"/><circle cx="52" cy="40" r="3" fill="#E11D48"/><path d="M84 16l6-6M92 30l8 2" stroke="#0F766E" stroke-width="3" stroke-linecap="round"/><rect x="86" y="52" width="26" height="16" rx="4" fill="#FFE4E6" stroke="#FDA4AF"/><path d="M92 60h14" stroke="#E11D48" stroke-width="3" stroke-linecap="round"/></svg></div></div>
 <div id="remList"></div>
+<div class="card"><h2>Reminders ahead</h2><p class="small muted">Reminders due each day for the next 7 days.</p><canvas id="chartReminders" width="520" height="240"></canvas></div>
 <div class="card"><h2>Add a reminder</h2>
 <div class="flex"><label class="grow">Reminder <input id="remName" placeholder="e.g. Pay the bill"></label><label>Date <input id="remDate" type="date"></label><label>Time <input id="remTime" value="09:00"></label><label>Repeat <select id="remRepeat"><option>none</option><option>daily</option><option>weekly</option><option>monthly</option></select></label><label>Heads-up <select id="remHeadsUp"><option>At the time</option><option>5 minutes before</option><option>15 minutes before</option><option>30 minutes before</option><option>1 hour before</option></select></label><label class="grow">Area <input id="remArea" placeholder="e.g. Money"></label></div>
 <label>Note <input id="remNote" placeholder="Optional note"></label>
@@ -221,7 +245,7 @@ Take out rubbish"></textarea></label></div><button class="primary" id="routineAd
 
 <!-- SETTINGS -->
 <section class="page" id="page-settings" aria-label="Settings">
-<h1>Settings &amp; Data</h1>
+<div class="section-hero settings-hero"><div class="grow"><span class="hero-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="currentColor" stroke="none"/><circle cx="15" cy="17" r="2" fill="currentColor" stroke="none"/></svg></span><h1>Settings &amp; Data</h1><p class="muted">Make it yours, then keep your data safe with a backup.</p></div><div class="hero-art"><svg viewBox="0 0 120 80" aria-hidden="true"><circle cx="40" cy="40" r="18" fill="#E2E8F0" stroke="#64748B" stroke-width="3"/><circle cx="40" cy="40" r="7" fill="#FFFFFF" stroke="#64748B" stroke-width="3"/><path d="M70 28h34M70 40h34M70 52h34" stroke="#94A3B8" stroke-width="3" stroke-linecap="round"/><circle cx="88" cy="28" r="5" fill="#0F766E"/><circle cx="96" cy="40" r="5" fill="#7C3AED"/><circle cx="82" cy="52" r="5" fill="#D97706"/></svg></div></div>
 <div class="card"><h2>How it looks</h2>
 <label>Name <input id="profName"></label>
 <label>Theme <select id="profTheme"><option>Light</option><option>Warm</option><option>Colorful</option><option>Soft</option><option>Forest</option><option>Sunset</option></select></label>
@@ -476,7 +500,17 @@ function renderInsights(){
   var mom=state.habits.length?Math.round(state.habits.reduce(function(a,h){return a+habitMomentum(h)},0)/state.habits.length):0;
   el("insightStats").innerHTML="<div><b style='font-size:28px'>"+week+"</b><div class='small muted'>done this week</div></div><div><b style='font-size:28px'>"+focusMin+"</b><div class='small muted'>focus minutes logged</div></div><div><b style='font-size:28px'>"+mom+"%</b><div class='small muted'>average habit momentum</div></div><div><b style='font-size:28px'>"+state.wins.length+"</b><div class='small muted'>wins in your jar</div></div>";
 }
-function renderAll(){renderToday();renderTasks();renderHabits();renderDump();renderGoals();renderInsights();renderInsightsExtra();renderReminders();renderNotes();renderWeek();renderMonth();renderHabitDetail();applyTheme()}
+function renderAll(){renderToday();renderTasks();renderHabits();renderDump();renderGoals();renderInsights();renderInsightsExtra();renderReminders();renderNotes();renderWeek();renderMonth();renderHabitDetail();drawNewCharts();applyTheme()}
+function localISO(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function drawNewCharts(){
+  var per=completedPerDay(7);drawBar("chartTodayMini",per.map(function(p){return p[0]}),per.map(function(p){return p[1]}),"#0F766E");
+  var labels=[],vals=[];for(var i=0;i<7;i++){var d=new Date();d.setDate(d.getDate()+i);var iso=localISO(d);labels.push(d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"}));vals.push(state.tasks.filter(function(t){return t.planned===iso}).length)}drawBar("chartPlanWeek",labels,vals,"#7C3AED");
+  var rlabels=[],rvals=[];for(var j=0;j<7;j++){var rd=new Date();rd.setDate(rd.getDate()+j);var riso=localISO(rd);rlabels.push(rd.toLocaleDateString("en-GB",{day:"2-digit",month:"short"}));rvals.push(state.reminders.filter(function(r){return r.date===riso}).length)}drawBar("chartReminders",rlabels,rvals,"#E11D48");
+  drawHBar("chartHabitsMini",state.habits.length?state.habits.map(function(h){return h.name}):["No habits yet"],state.habits.length?state.habits.map(function(h){return habitMomentum(h)}):[0],"#059669");
+  var dc={open:0,sorted:0,later:0,note:0,letgo:0};state.dump.forEach(function(d){if(dc[d.status]!==undefined)dc[d.status]++});
+  drawDonut("chartDump",["Open","Sorted","Later","Saved as note","Let go"],[dc.open,dc.sorted,dc.later,dc.note,dc.letgo],["#D97706","#0F766E","#94A3B8","#7C3AED","#E11D48"],String(state.dump.length),"thoughts");
+  drawHBar("chartGoals",state.goals.length?state.goals.map(function(g){return g.title}):["No goals yet"],state.goals.length?state.goals.map(function(g){if(g.status==="done")return 100;var tot=g.milestones.length;if(!tot)return 0;return Math.round(100*g.milestones.filter(function(m){return m.done}).length/tot)}):[0],"#7C3AED");
+}
 function prepare(id){
   var c=el(id);if(!c)return null;var ctx=c.getContext("2d");if(!ctx)return null;
   var dpr=(typeof window!=="undefined"&&window.devicePixelRatio)?window.devicePixelRatio:1;
@@ -531,11 +565,11 @@ function drawLine(id,series,labels){
   labels.forEach(function(l,i){if(i%Math.max(1,Math.floor(labels.length/6))===0)ctx.fillText(l,36+i*((500-36)/Math.max(1,labels.length-1)),230)});
   ctx.textAlign="left";
 }
-function drawDonut(id,labels,vals,colors,centre){
+function drawDonut(id,labels,vals,colors,centre,centreSub){
   var P=prepare(id);if(!P)return;var ctx=P.ctx;var total=vals.reduce(function(a,b){return a+b},0)||1;var start=-Math.PI/2,cx=150,cy=120,r=72;
   vals.forEach(function(v,i){if(!v)return;var ang=v/total*Math.PI*2;ctx.strokeStyle=colors[i%colors.length];ctx.lineWidth=26;ctx.lineCap="butt";ctx.beginPath();ctx.arc(cx,cy,r,start,start+ang);ctx.stroke();start+=ang});
   ctx.fillStyle="#334155";ctx.font="800 22px system-ui,sans-serif";ctx.textAlign="center";ctx.fillText(centre,cx,cy-2);
-  ctx.fillStyle="#64748B";ctx.font="12px system-ui,sans-serif";ctx.fillText("tasks done",cx,cy+18);ctx.textAlign="left";
+  ctx.fillStyle="#64748B";ctx.font="12px system-ui,sans-serif";ctx.fillText(centreSub||"tasks done",cx,cy+18);ctx.textAlign="left";
   labels.forEach(function(l,i){var y=52+i*28;ctx.fillStyle=colors[i%colors.length];ctx.beginPath();ctx.arc(268,y+4,6,0,Math.PI*2);ctx.fill();ctx.fillStyle="#334155";ctx.font="13px system-ui,sans-serif";ctx.fillText(l+" — "+vals[i]+" ("+Math.round(100*vals[i]/total)+"%)",282,y+9)});
 }
 function renderCharts(){
@@ -556,6 +590,7 @@ function renderCharts(){
   drawDonut("chartBalance",["Open","Done","Later"],[counts.open,counts.done,counts.later],["#D97706","#0F766E","#94A3B8"],String(counts.done));
 }
 function showTab(tab){
+  document.body.setAttribute("data-page",tab);
   document.querySelectorAll("[data-tab]").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-tab")===tab)});
   document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active")});
   var page=el("page-"+tab);if(page)page.classList.add("active");
