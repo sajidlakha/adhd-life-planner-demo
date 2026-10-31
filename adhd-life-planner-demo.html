@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DEMO - ADHD Life Planner App | Daily Planner, Task and Habit Tracker, Brain Dump, Focus Timer, Routine Planner | Phone &amp; Computer</title>
+<style>
+:root{--paper:#F8F7F4;--card:#FFFFFF;--ink:#334155;--muted:#64748B;--line:#E8E2D9;--primary:#0F766E;--primary-soft:#E6F4F1;--primary-strong:#115E59;--teal:#0F766E;--teal-soft:#E6F4F1;--amber:#D97706;--amber-soft:#FFFBEB;--rose:#E11D48;--violet:#7C3AED;--radius:20px;--shadow:0 6px 24px rgba(51,65,85,.07);--fs:16px}
+*{box-sizing:border-box} html{font-size:var(--fs)} body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
+body.large{--fs:19px} body.no-motion *{transition:none!important}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:12px 18px;min-height:44px;color:var(--ink)}
+button.primary{background:var(--primary);color:#fff;border-color:var(--primary);font-weight:700;box-shadow:0 4px 14px rgba(15,118,110,.22)}
+button.ghost{background:transparent;border-color:transparent;color:var(--primary);font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+input,select,textarea{font:inherit;width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink)}
+label{font-weight:600;font-size:.9em}
+.layout{display:flex;align-items:flex-start;max-width:1180px;margin:0 auto}
+.sidebar{position:sticky;top:0;height:100vh;width:268px;flex:none;background:var(--card);border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column;gap:20px;overflow-y:auto}
+.brand{font-weight:800;font-size:22px;letter-spacing:-.02em;color:var(--ink)} .brand i{font-style:normal;color:var(--primary)}
+.navbtn{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;border:none;border-radius:16px;padding:12px 14px;background:transparent;min-height:60px}
+.navbtn small{display:block;color:var(--muted);font-weight:400;font-size:.82em}
+.navbtn .navic{font-size:20px;line-height:1.2}
+.navbtn.active{background:var(--primary-soft);color:var(--primary-strong);box-shadow:inset 3px 0 0 var(--primary)}
+.navbtn.active small{color:var(--primary-strong)}
+.glance{border:1px solid var(--line);border-radius:18px;padding:16px;background:var(--paper)}
+main{flex:1;min-width:0;max-width:820px;margin:0 auto;padding:28px 24px 60px;width:100%}
+.page{display:none} .page.active{display:block}
+h1{font-size:30px;line-height:1.15;letter-spacing:-.02em;margin:6px 0} h2{font-size:20px;letter-spacing:-.01em;margin:0 0 6px} h3{font-size:16px;margin:0 0 6px}
+.muted{color:var(--muted)} .small{font-size:.88em}
+.kicker{font-size:.78em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--primary)}
+.hero{background:linear-gradient(135deg,#E6F4F1,#EDE9FE);border:1px solid var(--line);border-radius:28px;padding:24px;box-shadow:var(--shadow)}
+.hero .big{font-size:30px;font-weight:800;line-height:1.2;letter-spacing:-.02em;margin:10px 0;color:var(--ink)}
+.ring{width:84px;height:84px;flex:none} .ring text{font-size:20px;font-weight:800;fill:var(--ink);text-anchor:middle}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:16px 0;box-shadow:var(--shadow)}
+.card.soft{background:var(--primary-soft);border-color:transparent}
+.flex{display:flex;gap:16px;align-items:center;flex-wrap:wrap} .grow{flex:1;min-width:220px}
+.chips{display:flex;gap:4px;flex-wrap:wrap;margin:10px 0;background:#EEF2F7;border-radius:999px;padding:4px;width:fit-content;max-width:100%}
+.chip{border:none;background:transparent;padding:8px 14px;min-height:40px} .chip.active{background:var(--card);color:var(--primary-strong);font-weight:700;box-shadow:0 2px 8px rgba(51,65,85,.12)}
+.taskcard{border:1px solid var(--line);border-left:4px solid var(--primary);border-radius:16px;padding:14px 16px;margin:10px 0;display:flex;gap:12px;align-items:flex-start;cursor:pointer;background:var(--card)}
+.taskcard.selected{border-color:var(--primary);background:var(--primary-soft)}
+.taskcard .check{width:28px;height:28px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-weight:700;background:var(--card)}
+.taskcard.done{border-left-color:#94A3B8} .taskcard.done .check{background:var(--teal);border-color:var(--teal);color:#fff}
+.taskcard.done .title{text-decoration:line-through;color:var(--muted)}
+.meta{font-size:.85em;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.pill{background:var(--primary-soft);color:var(--primary-strong);border-radius:999px;padding:2px 10px;font-size:.82em}
+.pill.teal{background:var(--teal-soft);color:#065F46} .pill.amber{background:var(--amber-soft);color:#92400E}
+.dotrow{display:flex;gap:6px;flex-wrap:wrap} .dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;background:var(--card)}
+.dot.full{background:var(--teal);border-color:var(--teal);color:#fff} .dot.tiny{background:var(--teal-soft);border-color:var(--teal);color:#065F46} .dot.rest{background:#F1F5F9;color:var(--muted)}
+.timeline{position:relative;margin:16px 0 16px 64px;border-left:2px solid var(--line)}
+.tblock{position:relative;margin:0 0 12px 16px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:16px}
+.tblock:before{content:"";position:absolute;left:-26px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--primary);border:2px solid var(--card)}
+.tblock .ttime{position:absolute;left:-80px;top:14px;width:56px;text-align:right;color:var(--muted);font-size:.85em}
+.nowline{border-top:2px solid var(--rose);position:relative;margin:8px 0} .nowline span{position:absolute;right:0;top:-11px;background:var(--rose);color:#fff;border-radius:999px;padding:2px 10px;font-size:.8em}
+.empty{border:2px dashed var(--line);border-radius:20px;padding:24px;text-align:center;color:var(--muted);background:var(--paper)}
+.empty b{color:var(--ink);display:block;font-size:18px;margin-bottom:4px}
+.quickbar{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--primary);border-radius:20px;padding:14px;margin:0 0 20px;box-shadow:var(--shadow)}
+.quickbar input{border:none;padding:8px 4px;font-size:18px} .quickbar input:focus{outline:none}
+.progressbar{height:10px;background:#E7E5E4;border-radius:999px;overflow:hidden} .progressbar>div{height:100%;background:var(--teal)}
+canvas{width:100%;height:240px;display:block}
+.chartcard h2{margin-bottom:2px}
+@media(max-width:820px){.layout{display:block} .sidebar{position:static;height:auto;width:auto;border-right:none;border-bottom:1px solid var(--line);padding:16px} .sidebar nav{display:flex;gap:8px;overflow-x:auto} .navbtn{min-width:150px} .glance{display:none} main{padding:20px 16px 40px} h1{font-size:26px} .hero .big{font-size:26px}}
+body[data-theme="warm"]{--paper:#FDF6EC;--line:#EDE8DF}
+body[data-theme="colorful"]{--primary:#7C3AED;--primary-soft:#F5F3FF;--primary-strong:#5B21B6;--teal:#059669}
+</style>
+</head>
+<body>
+<div style="background:#DC2626;color:#fff;text-align:center;padding:10px;font-weight:700">DEMO PREVIEW - This demo shows example data. It is not the paid file.</div>
+<div class="layout"><aside class="sidebar">
+<div class="brand"><i>●</i> Life Planner</div>
+<p class="small muted">Daily planner, task and habit tracker, for phone and computer.</p>
+<nav aria-label="Main navigation">
+<button data-tab="today" class="navbtn active"><span class="navic">☀</span><span><b>Today</b><small>Start my day</small></span></button>
+<button data-tab="plan" class="navbtn"><span class="navic">✓</span><span><b>Plan</b><small>Tasks and schedule</small></span></button>
+<button data-tab="habits" class="navbtn"><span class="navic">◉</span><span><b>Habits</b><small>Habits and routines</small></span></button>
+<button data-tab="capture" class="navbtn"><span class="navic">✎</span><span><b>Capture</b><small>Brain Dump, goals, wins</small></span></button>
+<button data-tab="insights" class="navbtn"><span class="navic">▦</span><span><b>Insights</b><small>Charts and weekly review</small></span></button>
+<button data-tab="settings" class="navbtn"><span class="navic">⚙</span><span><b>Settings</b><small>Profile and data</small></span></button>
+</nav>
+<div class="glance"><h3>Today at a glance</h3><p id="sideSummary" class="small muted"></p><button id="weatherPill" class="ghost">Brain Weather →</button></div>
+</aside>
+<main>
+<div class="quickbar" role="search">
+<input id="quickAdd" placeholder="Capture anything, fast — try: email update tomorrow 4pm #work ~30m" aria-label="Quick add a task">
+<div id="quickOut" class="small muted" style="padding:4px"></div>
+<button class="primary" id="quickBtn">Add to today</button>
+</div>
+
+<!-- TODAY -->
+<section class="page active" id="page-today" aria-label="Today">
+<h1 id="greeting">Good day.</h1>
+<p id="datePill" class="small muted"></p>
+<p class="muted" id="todayLine"></p>
+<div class="hero">
+<div class="flex">
+<div class="grow"><div class="kicker">Your next small step</div><div class="big" id="nextStep">Add one small thing.</div><p id="heroSub" class="small muted"></p></div>
+<svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="rgba(15,118,110,.18)" stroke-width="10"/><circle id="ringArc" cx="50" cy="50" r="42" fill="none" stroke="#0F766E" stroke-width="10" stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="264" stroke-dashoffset="264"/><text x="50" y="56" id="ringText">0/0</text></svg>
+</div>
+<div class="flex" style="margin-top:16px"><button class="primary" id="focusStartBtn" >▶ Start 5 minutes</button><button id="focusPauseBtn" >Pause</button><span id="focusOut" style="font-weight:700">No focus session running.</span></div>
+</div>
+
+<div class="card soft">
+<h2>Start my day — 3 taps</h2>
+<p class="muted">First, how is your head? Then, pick your three. Then, start one thing for five minutes. That is the whole morning.</p>
+<div><b>1 · Brain Weather</b><div class="flex" style="margin-top:8px"><span>Head:</span><span class="dotrow" id="moodDots"></span><span>Energy:</span><span class="dotrow" id="energyDots"></span><button class="primary" id="weatherBtn">Save check-in</button></div><p id="weatherNote" class="small muted"></p><label><input id="gentleCheck" type="checkbox"> Gentle Day today — one lightest task, tiny habits, clear finish line</label></div>
+</div>
+
+<div class="card"><h2>Today's Three</h2><p class="muted">Three means three. Finishing one does not pull in another.</p><div id="todayThree"></div></div>
+
+<div class="card"><h2>What is happening now</h2><div id="todayList"></div>
+<div class="flex" style="margin-top:12px"><button id="closeDayBtn">Close the Day</button><button id="welcomeBtn">Welcome Back</button><button class="ghost" id="resetBtn">Weekly Reset →</button></div><p id="dayOut" class="small muted"></p></div>
+
+<div class="card"><h2>Need a nudge?</h2>
+<div class="flex"><select id="stuckSelect" style="flex:1;min-width:200px"><option>It is unclear</option><option>It is too big</option><option>I am dreading it</option><option>I am waiting on someone</option><option>No energy</option></select><button id="stuckBtn">Show my next move</button></div><p id="stuckOut"></p>
+<div class="flex" style="margin-top:12px"><label style="flex:1">Minutes before my next commitment <input id="pickMinutes" type="number" value="30"></label><label style="flex:1">My energy <select id="pickEnergy"><option>Low</option><option selected>Medium</option><option>High</option></select></label><label style="flex:1">Where I am <input id="pickLocation" placeholder="home, desk, outside"></label></div>
+<button class="primary" id="pickBtn" style="margin-top:10px">Pick for Me</button><p id="pickOut"></p>
+<label style="display:block;margin-top:12px">Park a stray thought <input id="parkThought" placeholder="Type it, then tap Park"></label><button id="parkBtn">Park it in Brain Dump</button>
+<input id="focusMinutes" type="hidden" value="5">
+</div>
+</section>
+
+<!-- PLAN -->
+<section class="page" id="page-plan" aria-label="Plan">
+<h1>Plan</h1><p class="muted">Tasks and schedule, together, because a task without a time is just a wish.</p>
+<div class="chips" role="group" aria-label="Task filters">
+<button class="chip active" data-filter="all">All</button><button class="chip" data-filter="today">Today</button><button class="chip" data-filter="soon">Due soon</button><button class="chip" data-filter="later">Later</button><button class="chip" data-filter="done">Done</button>
+</div>
+<div class="chips" role="group" aria-label="Plan view">
+<button class="chip active" id="viewListBtn">List view</button><button class="chip" id="viewTimeBtn">Timeline view</button>
+</div>
+<div id="taskList"></div>
+<div class="flex"><button id="doneBtn">✓ Mark done</button><button id="laterBtn">Move to Later</button><button id="tomorrowBtn">Not Today</button><button id="threeBtn">Add to Today's Three</button><button id="slotBtn">Find a Slot</button></div>
+<p id="taskOut" class="small muted"></p>
+<div class="card"><h2>Timeline</h2><div id="schedTimeline"></div><div id="schedList" class="small muted"></div></div>
+<div class="card"><h2>Add an event</h2>
+<div class="flex"><label class="grow">Title <input id="evTitle"></label><label>Date <input id="evDate" type="date"></label><label>Start <input id="evStart" value="09:00"></label><label>End <input id="evEnd" value="10:00"></label><label>Kind <select id="evKind"><option>fixed</option><option>flexible</option></select></label></div>
+<button class="primary" id="evBtn" style="margin-top:10px">Add event</button></div>
+<div class="card"><h2>Running late?</h2><p class="muted">See a revised plan before anything changes.</p>
+<label>Minutes late <input id="lateMinutes" type="number" value="30"></label><button id="lateBtn" style="margin-top:10px">Preview revised plan</button><p id="lateOut"></p></div>
+</section>
+
+<!-- HABITS -->
+<section class="page" id="page-habits" aria-label="Habits">
+<h1>Habits &amp; Routines</h1><p class="muted">Tiny still counts. Nothing resets because you missed a day.</p>
+<div class="card"><h2>This week</h2><div id="habitList"></div>
+<div class="flex"><label class="grow">Habit <input id="habitName" placeholder="e.g. Read"></label><label class="grow">Tiny version <input id="habitTiny" placeholder="e.g. Read one page"></label></div>
+<button class="primary" id="habitBtn" style="margin-top:10px">Add habit</button>
+<div class="flex" style="margin-top:10px"><button id="habitFullBtn">Mark today FULL</button><button id="habitTinyBtn">Mark today TINY</button><button id="habitBackBtn">Fill in yesterday</button></div><p id="habitOut" class="small muted"></p></div>
+<div class="card"><h2>Routine player</h2><div id="routineList"></div>
+<label><input id="shortCheck" type="checkbox"> Short version only (essential steps)</label>
+<div class="flex" style="margin-top:10px"><button class="primary" id="routineStartBtn">Start routine</button><button id="routineNextBtn">Next step →</button></div>
+<p id="routineOut" style="font-size:22px;font-weight:800"></p><div class="dotrow" id="routineDots"></div></div>
+</section>
+
+<!-- CAPTURE -->
+<section class="page" id="page-capture" aria-label="Capture">
+<h1>Capture</h1><p class="muted">Get it out of your head, then sort it one thought at a time. You never have to stare at the whole list.</p>
+<div class="card" style="background:var(--primary-soft);border-color:transparent"><h2 id="dumpFeaturedTitle">One thought at a time</h2><p id="dumpFeatured" style="font-size:20px;font-weight:700"></p>
+<div class="flex"><button class="primary" id="sortTodayBtn">Do today</button><button id="sortTaskBtn">Make it a task</button><button id="sortLaterBtn">Later</button><button id="sortNoteBtn">Save as note</button><button id="sortGoBtn">Let it go</button></div><p id="dumpOut" class="small muted"></p></div>
+<div class="card"><h2>All thoughts</h2><div id="dumpList"></div>
+<div class="flex"><input id="dumpEntry" placeholder="What is on your mind?" style="flex:1"><button class="primary" id="dumpBtn">Add thought</button></div></div>
+<div class="card"><h2>Goals</h2><div id="goalList"></div>
+<div class="flex"><label class="grow">Goal <input id="goalTitle"></label><label class="grow">Why it matters <input id="goalWhy"></label><label class="grow">Next step <input id="goalNext"></label></div><button class="primary" id="goalBtn" style="margin-top:10px">Add goal</button></div>
+<div class="card"><h2>Wins Jar</h2><div id="winList"></div>
+<div class="flex"><input id="winEntry" placeholder="Add a win, however small" style="flex:1"><button class="primary" id="winBtn">Add a win</button></div></div>
+</section>
+
+<!-- INSIGHTS -->
+<section class="page" id="page-insights" aria-label="Insights">
+<h1>Insights</h1><p class="muted">What you did, never what you did not. Progress does not disappear because of an imperfect week.</p>
+<div class="card"><div class="flex" id="insightStats"></div><button class="primary" id="chartBtn">Refresh charts</button></div>
+<div class="card"><h2>Tasks completed</h2><p class="small muted">Per day, last 14 days. The amber bar is today.</p><canvas id="chartTasks" width="520" height="240"></canvas></div>
+<div class="card"><h2>Habit momentum</h2><p class="small muted">Percent of counted days, last 28 days or since you started. Rest days are ignored.</p><canvas id="chartHabits" width="520" height="240"></canvas></div>
+<div class="card"><h2>Brain Weather over time</h2><p class="small muted">Head and energy, 1 to 5. Higher is better, lower means a gentler day was the right call.</p><canvas id="chartWeather" width="520" height="240"></canvas></div>
+<div class="card"><h2>Focus: estimated vs actual</h2><p class="small muted">Grey is what you planned, teal is what you actually did, per finished task.</p><canvas id="chartFocus" width="520" height="240"></canvas></div>
+<div class="card"><h2>Time by area of life</h2><p class="small muted">Share of finished-task minutes, sorted largest first.</p><canvas id="chartArea" width="520" height="240"></canvas></div>
+<div class="card"><h2>Open, Done and Later</h2><p class="small muted">Where your tasks stand right now. Later is a decision, not a failure.</p><canvas id="chartBalance" width="520" height="240"></canvas></div>
+</section>
+
+<!-- SETTINGS -->
+<section class="page" id="page-settings" aria-label="Settings">
+<h1>Settings &amp; Data</h1>
+<div class="card"><h2>How it looks</h2>
+<label>Name <input id="profName"></label>
+<label>Theme <select id="profTheme"><option>Light</option><option>Warm</option><option>Colorful</option></select></label>
+<label>Text size <select id="textSize"><option value="Normal">Normal</option><option value="Large">Large</option></select></label>
+<label><input id="motionCheck" type="checkbox"> Reduced motion (turn off transitions)</label>
+<button class="primary" id="saveProfileBtn" style="margin-top:10px">Save profile</button><p id="profOut" class="small muted"></p></div>
+<div class="card"><h2>Your data</h2><p class="muted">Saved in this browser only. Restore replaces, it does not merge.</p>
+<div class="flex"><button id="backupBtn">Download backup</button><button id="restoreBtn">Restore backup</button><input id="restoreFile" type="file" accept=".json" style="display:none"><button id="csvBtn">Export tasks as CSV</button></div>
+<div class="flex" style="margin-top:10px"><button id="sampleBtn">Load example</button><button id="clearBtn">Clear example data</button><button id="resetBlankBtn">Reset to blank</button></div></div>
+<div class="card"><h2>Honest limits</h2><p class="muted">No automatic sync. No reminders when the app is closed. No app-store install. This is an organising tool for personal use, not a medical device or treatment.</p></div>
+</section>
+</main>
+</div>
+<script>
+"use strict";
+var KEY="calmLifePlannerProDemoV1";
+function uid(){return Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4)}
+function todayStr(d){d=d||new Date();return d.toISOString().slice(0,10)}
+function parseD(s){if(!s)return null;var d=new Date(s+"T00:00:00");return isNaN(d)?null:d}
+function addDays(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function hhmm(m){return String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0")}
+function toMin(s){try{var p=s.split(":");return parseInt(p[0])*60+parseInt(p[1])}catch(e){return null}}
+function blankState(){return {profile:{name:"",theme:"Light",textSize:"Normal",motion:false},tasks:[],events:[],habits:[],routines:[],dump:[],notes:[],goals:[],wins:[],weather:{},focus:[],manualThree:[],gentle:false,lastSeen:todayStr()}}
+function sampleState(){
+  var t=new Date(),iso=function(d){return d.toISOString().slice(0,10)},y=function(n){return iso(addDays(t,-n))},f=function(n){return iso(addDays(t,n))};
+  var tasks=[
+    {id:uid(),title:"Email the project update",area:"Work",priority:"High",energy:"Medium",location:"desk",planned:iso(t),due:iso(t),est:20,actual:0,status:"open",repeat:"none",steps:[{text:"Open the draft",done:false},{text:"Add the two numbers",done:false}],created:iso(t),completed:"",moved:0},
+    {id:uid(),title:"Walk for 20 minutes",area:"Health",priority:"Medium",energy:"Low",location:"outside",planned:iso(t),due:"",est:20,actual:0,status:"open",repeat:"daily",steps:[],created:iso(t),completed:"",moved:0},
+    {id:uid(),title:"Read 10 pages",area:"Learning",priority:"Low",energy:"Low",location:"home",planned:f(1),due:"",est:15,actual:0,status:"open",repeat:"none",steps:[],created:iso(t),completed:"",moved:0},
+    {id:uid(),title:"Tidy the desk",area:"Home",priority:"Medium",energy:"Medium",location:"home",planned:y(1),due:f(2),est:15,actual:15,status:"done",repeat:"none",steps:[],created:y(1),completed:y(1),moved:0},
+    {id:uid(),title:"Prepare lunch for tomorrow",area:"Home",priority:"Low",energy:"Low",location:"home",planned:iso(t),due:"",est:10,actual:0,status:"open",repeat:"none",steps:[],created:iso(t),completed:"",moved:0}
+  ];
+  for(var i=0;i<7;i++){tasks.push({id:uid(),title:"Sample done task "+(i+1),area:["Home","Work","People","Health","Money","Learning","Fun"][i%7],priority:"Low",energy:"Low",location:"",planned:y(i),due:"",est:20,actual:20,status:"done",repeat:"none",steps:[],created:y(i),completed:y(i),moved:0})}
+  var s=blankState();s.tasks=tasks;
+  s.events=[{id:uid(),title:"Team call",date:iso(t),start:"10:00",end:"10:30",kind:"fixed",area:"Work"},{id:uid(),title:"Lunch break",date:iso(t),start:"13:00",end:"13:30",kind:"flexible",area:"Health"},{id:uid(),title:"Focus block",date:iso(t),start:"15:00",end:"16:00",kind:"flexible",area:"Work"}];
+  s.habits=[{id:uid(),name:"Drink water",tiny:"Drink one glass",rest:[],comp:{}},{id:uid(),name:"Read",tiny:"Read one page",rest:[6],comp:{}}];
+  for(var j=0;j<5;j++){s.habits[0].comp[y(j)]="full"}
+  for(var k=0;k<3;k++){s.habits[1].comp[y(k)]="tiny"}
+  s.routines=[{id:uid(),name:"Morning Start",steps:[{text:"Drink water",essential:true,minutes:2},{text:"Open today's three",essential:true,minutes:3},{text:"Tidy one surface",essential:false,minutes:5}]},{id:uid(),name:"Evening Close",steps:[{text:"Close the day",essential:true,minutes:3},{text:"Lay out tomorrow's first step",essential:true,minutes:2},{text:"Read a few pages",essential:false,minutes:10}]}];
+  s.dump=[{id:uid(),text:"Idea for the weekend walk",created:iso(t),status:"open"}];
+  s.goals=[{id:uid(),title:"Finish the course module",why:"So the next project feels easier, not harder.",milestones:[{text:"Watch the first two lessons",done:true},{text:"Do the practice exercise",done:false}],next:"Open lesson three for five minutes"}];
+  s.wins=[{id:uid(),text:"Finished the desk tidy without rushing",date:y(1)}];
+  for(var m=0;m<5;m++){s.weather[y(m)]={mood:2+(m%3),energy:3}}
+  s.focus=[{taskId:"",date:y(1),minutes:25,planned:20}];
+  return s;
+}
+function loadState(){try{var raw=localStorage.getItem(KEY);if(raw){var d=JSON.parse(raw);var b=blankState();for(var k in b){if(d[k]!==undefined)b[k]=d[k]}if(!b.profile)b.profile={name:"",theme:"Light",textSize:"Normal",motion:false};return b}}catch(e){}return sampleState()}
+function saveState(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+var state=loadState();
+var STUCK={"It is unclear":"Write the first action in one sentence. Not the whole task, just the first move you would actually do.","It is too big":"Break it into a step that takes under 10 minutes. Do only that step, then stop if you want to.","I am dreading it":"Try only the worst 2 minutes, with a timer. Stopping after 2 minutes is allowed.","I am waiting on someone":"Park it until a check-back day, and write down who you are waiting on and what you need from them.","No energy":"Swap it for something lighter, or move it to tomorrow. A smaller day is still a day."};
+var WEEKDAYS={monday:0,mon:0,tuesday:1,tue:1,tues:1,wednesday:2,wed:2,thursday:3,thu:3,thur:3,friday:4,fri:4,saturday:5,sat:5,sunday:6,sun:6};
+function nextWeekday(base,wd){var d=(wd-base.getDay()+7)%7;if(d===0)d=7;var x=new Date(base);x.setDate(x.getDate()+d);return x}
+function parseQuick(text,base){
+  base=base||new Date();var raw=(text||"").trim();var out={title:raw,planned:null,start:null,area:"Other",est:30,due:null,repeat:"none",location:"",three:false};
+  if(!raw)return out;var work=raw;var m;
+  m=work.match(/#(\w+)/);if(m){var c=m[1].charAt(0).toUpperCase()+m[1].slice(1).toLowerCase();out.area=["Home","Work","People","Health","Money","Learning","Fun","Other"].indexOf(c)>=0?c:"Other";work=work.replace(m[0]," ")}
+  m=work.match(/@(\w+)/);if(m){out.location=m[1];work=work.replace(m[0]," ")}
+  m=work.match(/~(\d+)\s*m/);if(m){out.est=parseInt(m[1]);work=work.replace(m[0]," ")}
+  var low=work.toLowerCase();
+  if(low.indexOf("every day")>=0||/\bdaily\b/.test(low)){out.repeat="daily";work=work.replace(/every day|daily/gi," ")}
+  else if(low.indexOf("every week")>=0||/\bweekly\b/.test(low)){out.repeat="weekly";work=work.replace(/every week|weekly/gi," ")}
+  else if(low.indexOf("every month")>=0||/\bmonthly\b/.test(low)){out.repeat="monthly";work=work.replace(/every month|monthly/gi," ")}
+  m=work.match(/\bdue\s+(tomorrow|today|\w+)/i);
+  if(m){var w=m[1].toLowerCase();if(w==="tomorrow")out.due=todayStr(addDays(base,1));else if(w==="today")out.due=todayStr(base);else if(WEEKDAYS[w]!==undefined)out.due=todayStr(nextWeekday(base,WEEKDAYS[w]));work=work.replace(m[0]," ")}
+  m=work.match(/\b(tomorrow|today)\b/i);
+  if(m){out.planned=m[1].toLowerCase()==="tomorrow"?todayStr(addDays(base,1)):todayStr(base);work=work.replace(m[0]," ")}
+  else{for(var word in WEEKDAYS){var re=new RegExp("\\b"+word+"\\b","i");if(re.test(work)){out.planned=todayStr(nextWeekday(base,WEEKDAYS[word]));work=work.replace(re," ");break}}}
+  m=work.match(/\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i);
+  if(m){var h=parseInt(m[1]),mi=parseInt(m[2]||0),ap=(m[3]||"").toLowerCase();if(ap==="pm"&&h<12)h+=12;if(ap==="am"&&h===12)h=0;if(h>=0&&h<=23){out.start=String(h).padStart(2,"0")+":"+String(mi).padStart(2,"0");work=work.replace(m[0]," ")}}
+  if(/top3|today's three/i.test(work)){out.three=true;work=work.replace(/top3|today's three/gi," ")}
+  out.title=work.replace(/\s+/g," ").replace(/^[\s\-.,]+|[\s\-.,]+$/g,"")||raw;
+  return out;
+}
+function dueSoon(t){var d=parseD(t.due);if(!d)return false;var today=new Date();today.setHours(0,0,0,0);var diff=Math.round((d-today)/86400000);return diff>=0&&diff<=3}
+function todayThree(){
+  var open=state.tasks.filter(function(t){return t.status==="open"});var byId={};open.forEach(function(t){byId[t.id]=t});
+  var picked=[];(state.manualThree||[]).forEach(function(id){if(byId[id]&&picked.indexOf(byId[id])<0)picked.push(byId[id])});
+  var pri={"High":0,"Medium":1,"Low":2};
+  var due=open.filter(function(t){return picked.indexOf(t)<0&&dueSoon(t)}).sort(function(a,b){return (a.due||"9999").localeCompare(b.due||"9999")||(pri[a.priority]-pri[b.priority])});
+  var rest=open.filter(function(t){return picked.indexOf(t)<0&&due.indexOf(t)<0}).sort(function(a,b){return (pri[a.priority]-pri[b.priority])||(a.planned||"9999").localeCompare(b.planned||"9999")});
+  due.concat(rest).forEach(function(t){if(picked.length<3)picked.push(t)});return picked.slice(0,3);
+}
+function pickForMe(mins,energy,location){
+  var order={Low:0,Medium:1,High:2},want=order[energy]||1;var cands=[];
+  state.tasks.forEach(function(t){if(t.status!=="open")return;if(t.est>mins)return;if((order[t.energy]||1)>want)return;var score=0;if(location&&t.location===location)score+=2;if(t.priority==="High")score+=2;else if(t.priority==="Medium")score+=1;if(dueSoon(t))score+=2;cands.push([score,t])});
+  if(!cands.length)return null;cands.sort(function(a,b){return b[0]-a[0]||(a[1].due||"9999").localeCompare(b[1].due||"9999")});return cands[0][1];
+}
+function findSlot(day,duration){
+  var need=Math.ceil(duration*1.25),busy=[];
+  state.events.forEach(function(e){if(e.date!==day||e.kind!=="fixed")return;var s=toMin(e.start),en=toMin(e.end);if(s!==null&&en!==null)busy.push([s,en])});
+  busy.sort(function(a,b){return a[0]-b[0]});var cursor=480;
+  for(var i=0;i<busy.length;i++){if(busy[i][0]-cursor>=need)return hhmm(cursor);cursor=Math.max(cursor,busy[i][1])}
+  return (1200-cursor>=need)?hhmm(cursor):null;
+}
+function habitMomentum(h,base){
+  base=base||new Date();var comp=h.comp||{},rest=h.rest||[];var start=addDays(base,-27);
+  var keys=Object.keys(comp);if(keys.length){var first=parseD(keys.sort()[0]);if(first&&first>start)start=first}
+  var done=0,counted=0,d=new Date(start);
+  while(d<=base){var wd=(d.getDay()+6)%7;if(rest.indexOf(wd)<0){counted++;if(comp[todayStr(d)]==="full"||comp[todayStr(d)]==="tiny")done++}d=addDays(d,1)}
+  return counted?Math.round(100*done/counted):0;
+}
+function completedPerDay(days){
+  var out=[],base=new Date();
+  for(var i=days-1;i>=0;i--){var d=addDays(base,-i);var n=state.tasks.filter(function(t){return t.status==="done"&&t.completed===todayStr(d)}).length;out.push([d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"}),n])}
+  return out;
+}
+function el(id){return document.getElementById(id)}
+var selectedTaskId=null,selectedHabitId=null,selectedRoutineId=null,taskFilter="all",planView="list";
+var moodSel=3,energySel=3,focusLeft=0,focusTimer=null,focusTaskId="",routineIdx=0,routineId="";
+function taskById(id){for(var i=0;i<state.tasks.length;i++)if(state.tasks[i].id===id)return state.tasks[i];return null}
+function habitById(id){for(var i=0;i<state.habits.length;i++)if(state.habits[i].id===id)return state.habits[i];return null}
+function nextRepeat(t){
+  var base=parseD(t.planned)||new Date();
+  if(t.repeat==="daily")return todayStr(addDays(base,1));
+  if(t.repeat==="weekly")return todayStr(addDays(base,7));
+  if(t.repeat==="monthly"){var y=base.getFullYear(),m=base.getMonth()+1;if(m===12){m=1;y++}else{m++}try{return new Date(y,m-1,base.getDate()).toISOString().slice(0,10)}catch(e){return todayStr(addDays(base,30))}}
+  return null;
+}
+function applyTheme(){
+  document.body.setAttribute("data-theme",state.profile.theme==="Warm"?"warm":state.profile.theme==="Colorful"?"colorful":"light");
+  document.body.classList.toggle("large",state.profile.textSize==="Large");
+  document.body.classList.toggle("no-motion",!!state.profile.motion);
+  el("profTheme").value=state.profile.theme||"Light";el("textSize").value=state.profile.textSize||"Normal";el("motionCheck").checked=!!state.profile.motion;el("profName").value=state.profile.name||"";
+}
+function renderDots(containerId,selected,setter){
+  var c=el(containerId);c.innerHTML="";
+  for(var i=1;i<=5;i++){var b=document.createElement("button");b.type="button";b.className="dot"+(i===selected?" full":"");b.textContent=i;b.setAttribute("aria-label","Level "+i);
+    (function(v){b.addEventListener("click",function(){setter(v);renderDots(containerId,v,setter)})})(i);c.appendChild(b)}
+}
+function renderToday(){
+  var day=todayStr();var name=state.profile.name||"";
+  el("greeting").textContent=name?("Good day, "+name+"."):("Good day.");
+  el("datePill").textContent=new Date().toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long"});
+  var three;
+  if(state.gentle){var open=state.tasks.filter(function(t){return t.status==="open"}).sort(function(a,b){return a.est-b.est});three=open.slice(0,1);el("nextStep").textContent="Gentle Day: one lightest useful task, tiny habits, clear finish line.";el("heroSub").textContent="Finish it and you are done. That counts."}
+  else{three=todayThree();el("nextStep").textContent=three.length?(three[0].title+" — "+three[0].est+" min"):("Add one small thing.");el("heroSub").textContent=three.length?("First of your Today's Three. Start with five minutes, stopping is allowed."):"Your planner starts blank. Capture one thing above, then it becomes your next step."}
+  var done=state.tasks.filter(function(t){return t.status==="done"&&t.completed===day}).length;
+  var planned=state.tasks.filter(function(t){return t.planned===day}).length;
+  el("todayLine").textContent=done+" done today · "+planned+" planned for today · "+state.habits.length+" habit(s) · "+state.wins.length+" win(s) in your jar";
+  var pct=planned?Math.round(100*done/planned):0;
+  el("ringText").textContent=done+"/"+planned;el("ringArc").setAttribute("stroke-dashoffset",String(264*(1-pct/100)));
+  el("todayThree").innerHTML=three.map(function(t,i){
+    return "<div class='taskcard"+(t.status==="done"?" done":"")+"' data-id='"+t.id+"'><div class='check'>"+(t.status==="done"?"✓":"")+"</div><div><b>"+(i+1)+". "+esc(t.title)+"</b><div class='meta'><span class='pill'>"+esc(t.area)+"</span><span>"+t.est+" min</span><span>due "+(t.due||"no date")+"</span></div></div></div>";
+  }).join("")||"<div class='empty'><b>No priorities yet.</b>Capture one thing above, then tap it to add it to Today's Three.</div>";
+  el("todayThree").querySelectorAll(".taskcard").forEach(function(card){card.addEventListener("click",function(){var t=taskById(card.getAttribute("data-id"));if(t){t.status=t.status==="done"?"open":"done";if(t.status==="done")t.completed=day;saveState();renderAll()}})});
+  var items=["<b>Now:</b> "+new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"})];
+  state.events.filter(function(e){return e.date===day}).sort(function(a,b){return a.start.localeCompare(b.start)}).forEach(function(e){items.push(esc(e.start)+"–"+esc(e.end)+" "+esc(e.title)+" ("+e.kind+")")});
+  state.tasks.filter(function(t){return t.status==="open"&&dueSoon(t)}).forEach(function(t){items.push("Due soon: "+esc(t.title)+" (due "+t.due+")")});
+  el("todayList").innerHTML=items.map(function(s){return "<div class='taskcard' style='cursor:default'><div>"+s+"</div></div>"}).join("");
+  var w=state.weather[day];el("weatherNote").textContent=w?("Today: head "+w.mood+"/5, energy "+w.energy+"/5."):"No check-in yet today. Two taps, and you are done.";
+  el("gentleCheck").checked=!!state.gentle;
+  var wp=el("weatherPill");wp.textContent=w?("◉ "+w.mood+"/"+w.energy):"◉";
+  renderDots("moodDots",moodSel,function(v){moodSel=v});renderDots("energyDots",energySel,function(v){energySel=v});
+}
+function renderTasks(){
+  var list=state.tasks.slice();
+  var day=todayStr();
+  if(taskFilter==="today")list=list.filter(function(t){return t.planned===day});
+  else if(taskFilter==="soon")list=list.filter(function(t){return t.status==="open"&&dueSoon(t)});
+  else if(taskFilter==="later")list=list.filter(function(t){return t.status==="later"});
+  else if(taskFilter==="done")list=list.filter(function(t){return t.status==="done"});
+  list.sort(function(a,b){return (a.planned||"9999").localeCompare(b.planned||"9999")});
+  el("taskList").innerHTML=list.map(function(t){
+    return "<div class='taskcard"+(t.id===selectedTaskId?" selected":"")+(t.status==="done"?" done":"")+"' data-id='"+t.id+"'><div class='check'>"+(t.status==="done"?"✓":"")+"</div><div><div class='title'><b>"+esc(t.title)+"</b></div><div class='meta'><span class='pill'>"+esc(t.area)+"</span><span>"+t.est+" min</span><span>"+t.priority+"</span><span>planned "+(t.planned||"-")+"</span><span>due "+(t.due||"-")+"</span><span>"+t.status+"</span>"+(t.moved?("<span>moved "+t.moved+"×</span>"):"")+"</div></div></div>";
+  }).join("")||"<div class='empty'><b>Nothing here yet.</b>Capture one thing at the top, or load the example in Settings to see how it feels.</div>";
+  el("taskList").querySelectorAll(".taskcard").forEach(function(card){card.addEventListener("click",function(){selectedTaskId=card.getAttribute("data-id");renderTasks()})});
+  renderSchedule();
+}
+function renderSchedule(){
+  var day=todayStr();var evs=state.events.filter(function(e){return e.date===day}).sort(function(a,b){return a.start.localeCompare(b.start)});
+  if(planView==="time"){
+    var now=new Date().toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});
+    var html="<div class='nowline'><span>Now "+now+"</span></div>";
+    html+=evs.map(function(e){return "<div class='timeline'><div class='tblock'><span class='ttime'>"+esc(e.start)+"</span><b>"+esc(e.title)+"</b><div class='small muted'>"+esc(e.start)+"–"+esc(e.end)+" · "+e.kind+"</div></div></div>"}).join("");
+    el("schedTimeline").innerHTML=html||"<div class='empty'><b>No events today.</b>Add one below, or let Find a Slot place a task in a free gap.</div>";
+    el("schedList").innerHTML="";
+  } else {
+    el("schedTimeline").innerHTML="";
+    el("schedList").innerHTML=evs.map(function(e){return esc(e.start)+"–"+esc(e.end)+" "+esc(e.title)+" ("+e.kind+")"}).join("<br>")||"No events today.";
+  }
+  el("evDate").value=el("evDate").value||day;
+}
+function renderHabits(){
+  var today=todayStr();var days=[];
+  for(var i=0;i<7;i++){var d=addDays(new Date(),-6+i);days.push(d)}
+  el("habitList").innerHTML=state.habits.map(function(h){
+    var dots=days.map(function(d){var key=todayStr(d);var v=h.comp[key];var cls=v==="full"?"full":v==="tiny"?"tiny":(h.rest.indexOf((d.getDay()+6)%7)>=0?"rest":"");var label=d.toLocaleDateString("en-GB",{weekday:"narrow"});return "<span class='dot "+cls+"' title='"+label+" "+key+"'>"+(v==="full"?"✓":v==="tiny"?"½":label)+"</span>"}).join("");
+    return "<div class='taskcard"+(h.id===selectedHabitId?" selected":"")+"' data-id='"+h.id+"'><div><b>"+esc(h.name)+"</b><div class='small muted'>Tiny: "+esc(h.tiny)+" · Momentum: "+habitMomentum(h)+"% · Today: "+(h.comp[today]||"not yet")+"</div><div class='dotrow' style='margin-top:8px'>"+dots+"</div></div></div>";
+  }).join("")||"<div class='empty'><b>No habits yet.</b>Add one below, with a tiny version that still counts on a hard day.</div>";
+  el("habitList").querySelectorAll(".taskcard").forEach(function(card){card.addEventListener("click",function(){selectedHabitId=card.getAttribute("data-id");renderHabits()})});
+  el("routineList").innerHTML=state.routines.map(function(r){
+    return "<div class='taskcard"+(r.id===selectedRoutineId?" selected":"")+"' data-id='"+r.id+"'><div><b>"+esc(r.name)+"</b><div class='small muted'>"+r.steps.map(function(s){return esc(s.text)}).join(" → ")+"</div></div></div>";
+  }).join("")||"<div class='empty'><b>No routines yet.</b>Load the example in Settings to see Morning Start and Evening Close.</div>";
+  el("routineList").querySelectorAll(".taskcard").forEach(function(card){card.addEventListener("click",function(){selectedRoutineId=card.getAttribute("data-id");renderHabits()})});
+}
+function renderDump(){
+  var open=state.dump.filter(function(d){return d.status==="open"});
+  var first=open[0];
+  el("dumpFeatured").textContent=first?first.text:"Your head is clear. Nothing waiting to be sorted.";
+  el("dumpFeaturedTitle").textContent=first?"One thought at a time":"All sorted";
+  el("dumpList").innerHTML=state.dump.map(function(d){return "<div class='taskcard' style='cursor:default'><div>["+d.status+"] "+esc(d.text)+"</div></div>"}).join("")||"<div class='empty'><b>Brain Dump is empty.</b>Park a thought here, then sort it later.</div>";
+}
+function renderGoals(){
+  el("goalList").innerHTML=state.goals.map(function(g){
+    var done=g.milestones.filter(function(m){return m.done}).length;
+    return "<div class='taskcard' style='cursor:default'><div><b>"+esc(g.title)+"</b><div class='small muted'>Why: "+esc(g.why)+" · Milestones "+done+"/"+g.milestones.length+" · Next: "+esc(g.next)+"</div></div></div>";
+  }).join("")||"<div class='empty'><b>No goals yet.</b>Add one goal, why it matters, and one tiny next step.</div>";
+  el("winList").innerHTML=state.wins.map(function(w){return "<div class='taskcard' style='cursor:default'><div>"+esc(w.date)+" — "+esc(w.text)+"</div></div>"}).join("")||"<div class='empty'><b>No wins yet.</b>Add one, however small.</div>";
+}
+function renderInsights(){
+  var week=state.tasks.filter(function(t){return t.status==="done"&&t.completed&&parseD(t.completed)>=addDays(new Date(),-7)}).length;
+  var focusMin=state.focus.reduce(function(a,s){return a+(s.minutes||0)},0);
+  var mom=state.habits.length?Math.round(state.habits.reduce(function(a,h){return a+habitMomentum(h)},0)/state.habits.length):0;
+  el("insightStats").innerHTML="<div><b style='font-size:28px'>"+week+"</b><div class='small muted'>done this week</div></div><div><b style='font-size:28px'>"+focusMin+"</b><div class='small muted'>focus minutes logged</div></div><div><b style='font-size:28px'>"+mom+"%</b><div class='small muted'>average habit momentum</div></div><div><b style='font-size:28px'>"+state.wins.length+"</b><div class='small muted'>wins in your jar</div></div>";
+}
+function renderAll(){renderToday();renderTasks();renderHabits();renderDump();renderGoals();renderInsights();applyTheme()}
+function prepare(id){
+  var c=el(id);if(!c)return null;var ctx=c.getContext("2d");if(!ctx)return null;
+  var dpr=(typeof window!=="undefined"&&window.devicePixelRatio)?window.devicePixelRatio:1;
+  c.width=520*dpr;c.height=240*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,520,240);
+  return {ctx:ctx,w:520,h:240};
+}
+function roundBar(ctx,x,y,w,h,r){
+  if(w<=0||h<=0)return;if(ctx.roundRect){ctx.beginPath();ctx.roundRect(x,y,w,h,[r,r,0,0]);ctx.fill()}else ctx.fillRect(x,y,w,h);
+}
+function grid(ctx,h,max,steps){
+  ctx.strokeStyle="#E8E2D9";ctx.lineWidth=1;ctx.fillStyle="#64748B";ctx.font="11px system-ui,sans-serif";ctx.textAlign="left";
+  for(var i=0;i<=steps;i++){var v=Math.round(max*i/steps);var y=h-32-((v/max)*(h-56));ctx.beginPath();ctx.moveTo(36,y);ctx.lineTo(500,y);ctx.stroke();ctx.fillText(String(v),8,y+4)}
+}
+function drawBar(id,labels,vals,color){
+  var P=prepare(id);if(!P)return;var ctx=P.ctx;var max=Math.max.apply(null,vals.concat([1]));grid(ctx,240,max,4);
+  var todayLabel=new Date().toLocaleDateString("en-GB",{day:"2-digit",month:"short"});
+  var bw=480/labels.length;
+  vals.forEach(function(v,i){var h=(v/max)*160;var x=36+i*bw+6;ctx.fillStyle=(labels[i]===todayLabel)?"#D97706":color;roundBar(ctx,x,240-32-h,bw-12,h,6);
+    ctx.fillStyle="#334155";ctx.font="600 12px system-ui,sans-serif";ctx.textAlign="center";ctx.fillText(String(v),x+(bw-12)/2,240-36-h);
+    ctx.fillStyle="#64748B";ctx.font="10px system-ui,sans-serif";ctx.fillText(labels[i],x+(bw-12)/2,232)});
+  ctx.textAlign="left";
+}
+function drawHBar(id,labels,vals,color){
+  var P=prepare(id);if(!P)return;var ctx=P.ctx;var max=Math.max.apply(null,vals.concat([1]));var rh=210/Math.max(1,labels.length);
+  labels.forEach(function(l,i){var y=12+i*rh;var w=(vals[i]/max)*300;
+    ctx.fillStyle="#334155";ctx.font="600 12px system-ui,sans-serif";ctx.textAlign="left";ctx.fillText(l,8,y+rh/2+4);
+    ctx.fillStyle="#EEF2F7";if(ctx.roundRect){ctx.beginPath();ctx.roundRect(140,y+4,310,rh-12,999);ctx.fill()}else ctx.fillRect(140,y+4,310,rh-12);
+    ctx.fillStyle=color;if(ctx.roundRect){ctx.beginPath();ctx.roundRect(140,y+4,Math.max(w,vals[i]?10:0),rh-12,999);ctx.fill()}else ctx.fillRect(140,y+4,w,rh-12);
+    ctx.fillStyle="#334155";ctx.font="600 12px system-ui,sans-serif";ctx.fillText(String(vals[i])+"%",462,y+rh/2+4)});
+}
+function smooth(ctx,pts){
+  ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);
+  for(var i=1;i<pts.length-1;i++){var xc=(pts[i][0]+pts[i+1][0])/2,yc=(pts[i][1]+pts[i+1][1])/2;ctx.quadraticCurveTo(pts[i][0],pts[i][1],xc,yc)}
+  if(pts.length>1)ctx.lineTo(pts[pts.length-1][0],pts[pts.length-1][1]);
+}
+function drawLine(id,series,labels){
+  var P=prepare(id);if(!P)return;var ctx=P.ctx;
+  ctx.strokeStyle="#E8E2D9";ctx.fillStyle="#64748B";ctx.font="11px system-ui,sans-serif";
+  for(var g=1;g<=5;g++){var y=210-((g-0.5)/5)*170;ctx.beginPath();ctx.moveTo(36,y);ctx.lineTo(500,y);ctx.stroke();ctx.fillText(String(g),14,y+4)}
+  // legend
+  ctx.fillStyle="#7C3AED";ctx.beginPath();ctx.arc(40,16,5,0,Math.PI*2);ctx.fill();ctx.fillStyle="#334155";ctx.font="12px system-ui,sans-serif";ctx.fillText("Head",52,20);
+  ctx.fillStyle="#D97706";ctx.beginPath();ctx.arc(110,16,5,0,Math.PI*2);ctx.fill();ctx.fillText("Energy",122,20);
+  series.forEach(function(s){
+    if(!s.vals.length)return;
+    var pts=s.vals.map(function(v,i){return [36+i*((500-36)/Math.max(1,s.vals.length-1)),210-((v-0.5)/5)*170]});
+    // area fill
+    ctx.save();ctx.globalAlpha=0.12;ctx.fillStyle=s.color;ctx.beginPath();ctx.moveTo(pts[0][0],210);pts.forEach(function(pt){ctx.lineTo(pt[0],pt[1])});ctx.lineTo(pts[pts.length-1][0],210);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.strokeStyle=s.color;ctx.lineWidth=3;ctx.lineJoin="round";ctx.lineCap="round";smooth(ctx,pts);ctx.stroke();
+    ctx.fillStyle=s.color;pts.forEach(function(pt){ctx.beginPath();ctx.arc(pt[0],pt[1],4.5,0,Math.PI*2);ctx.fill()});
+  });
+  ctx.fillStyle="#64748B";ctx.font="10px system-ui,sans-serif";ctx.textAlign="center";
+  labels.forEach(function(l,i){if(i%Math.max(1,Math.floor(labels.length/6))===0)ctx.fillText(l,36+i*((500-36)/Math.max(1,labels.length-1)),230)});
+  ctx.textAlign="left";
+}
+function drawDonut(id,labels,vals,colors,centre){
+  var P=prepare(id);if(!P)return;var ctx=P.ctx;var total=vals.reduce(function(a,b){return a+b},0)||1;var start=-Math.PI/2,cx=150,cy=120,r=72;
+  vals.forEach(function(v,i){if(!v)return;var ang=v/total*Math.PI*2;ctx.strokeStyle=colors[i%colors.length];ctx.lineWidth=26;ctx.lineCap="butt";ctx.beginPath();ctx.arc(cx,cy,r,start,start+ang);ctx.stroke();start+=ang});
+  ctx.fillStyle="#334155";ctx.font="800 22px system-ui,sans-serif";ctx.textAlign="center";ctx.fillText(centre,cx,cy-2);
+  ctx.fillStyle="#64748B";ctx.font="12px system-ui,sans-serif";ctx.fillText("tasks done",cx,cy+18);ctx.textAlign="left";
+  labels.forEach(function(l,i){var y=52+i*28;ctx.fillStyle=colors[i%colors.length];ctx.beginPath();ctx.arc(268,y+4,6,0,Math.PI*2);ctx.fill();ctx.fillStyle="#334155";ctx.font="13px system-ui,sans-serif";ctx.fillText(l+" — "+vals[i]+" ("+Math.round(100*vals[i]/total)+"%)",282,y+9)});
+}
+function renderCharts(){
+  var per=completedPerDay(14);drawBar("chartTasks",per.map(function(p){return p[0]}),per.map(function(p){return p[1]}),"#0F766E");
+  drawHBar("chartHabits",state.habits.length?state.habits.map(function(h){return h.name}):["No habits yet"],state.habits.length?state.habits.map(function(h){return habitMomentum(h)}):[0],"#0F766E");
+  var days=Object.keys(state.weather).sort();
+  drawLine("chartWeather",[{color:"#7C3AED",vals:days.map(function(d){return state.weather[d].mood})},{color:"#D97706",vals:days.map(function(d){return state.weather[d].energy})}],days);
+  var done=state.tasks.filter(function(t){return t.status==="done"}).slice(0,10);
+  var P=prepare("chartFocus");if(P){var ctx=P.ctx;var max=1;done.forEach(function(t){max=Math.max(max,t.est,t.actual||t.est)});grid(ctx,240,max,4);
+    ctx.fillStyle="#94A3B8";ctx.beginPath();ctx.arc(40,16,6,0,Math.PI*2);ctx.fill();ctx.fillStyle="#334155";ctx.font="12px system-ui,sans-serif";ctx.fillText("Estimated",52,20);
+    ctx.fillStyle="#0F766E";ctx.beginPath();ctx.arc(140,16,6,0,Math.PI*2);ctx.fill();ctx.fillText("Actual",152,20);
+    done.forEach(function(t,i){var x=36+i*((500-36)/Math.max(1,done.length));var h1=(t.est/max)*160,h2=((t.actual||t.est)/max)*160;ctx.fillStyle="#94A3B8";roundBar(ctx,x,208-h1,12,h1,4);ctx.fillStyle="#0F766E";roundBar(ctx,x+14,208-h2,12,h2,4);ctx.fillStyle="#64748B";ctx.font="10px system-ui,sans-serif";ctx.textAlign="center";ctx.fillText("T"+(i+1),x+13,230);ctx.textAlign="left"})}
+  var byArea={};state.tasks.filter(function(t){return t.status==="done"}).forEach(function(t){byArea[t.area]=(byArea[t.area]||0)+(t.actual||t.est)});
+  var entries=Object.keys(byArea).map(function(k){return [k,byArea[k]]}).sort(function(a,b){return b[1]-a[1]});
+  var tot=entries.reduce(function(a,e){return a+e[1]},0)||1;
+  drawHBar("chartArea",entries.length?entries.map(function(e){return e[0]}):["No time yet"],entries.length?entries.map(function(e){return Math.round(100*e[1]/tot)}):[0],"#7C3AED");
+  var counts={open:0,done:0,later:0};state.tasks.forEach(function(t){if(counts[t.status]!==undefined)counts[t.status]++});
+  drawDonut("chartBalance",["Open","Done","Later"],[counts.open,counts.done,counts.later],["#D97706","#0F766E","#94A3B8"],String(counts.done));
+}
+function showTab(tab){
+  document.querySelectorAll("[data-tab]").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-tab")===tab)});
+  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active")});
+  var page=el("page-"+tab);if(page)page.classList.add("active");
+  if(tab==="insights")renderCharts();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("[data-tab]").forEach(function(btn){btn.addEventListener("click",function(){showTab(btn.getAttribute("data-tab"))})});
+el("weatherPill").addEventListener("click",function(){showTab("today")});
+function addQuick(){
+  var p=parseQuick(el("quickAdd").value);if(!p.title)return;
+  var task={id:uid(),title:p.title,area:p.area,priority:"Medium",energy:"Medium",location:p.location,planned:p.planned||todayStr(),due:p.due||"",est:p.est,actual:0,status:"open",repeat:p.repeat,steps:[],created:todayStr(),completed:"",moved:0};
+  state.tasks.push(task);if(p.three)state.manualThree.push(task.id);
+  if(p.start){var sMin=toMin(p.start);state.events.push({id:uid(),title:task.title,date:task.planned,start:p.start,end:hhmm(sMin+task.est),kind:"flexible",area:task.area})}
+  el("quickOut").textContent="Added: "+task.title+" ("+task.est+" min, "+task.area+", planned "+task.planned+")";
+  el("quickAdd").value="";saveState();renderAll();
+}
+el("quickBtn").addEventListener("click",addQuick);
+el("quickAdd").addEventListener("input",function(){
+  var v=el("quickAdd").value.trim();if(!v){el("quickOut").textContent="";return}
+  var p=parseQuick(v);el("quickOut").textContent="Will add: "+p.title+" · "+p.est+" min · "+p.area+" · planned "+(p.planned||"today")+(p.due?" · due "+p.due:"")+(p.start?" · at "+p.start:"");
+});
+el("weatherBtn").addEventListener("click",function(){
+  state.weather[todayStr()]={mood:moodSel,energy:energySel};
+  if(moodSel<=2&&energySel<=2){state.gentle=true;alert("Head and energy are both low today. Gentle Day is on: one lightest task, tiny habits, clear finish line.")}
+  saveState();renderToday();
+});
+el("gentleCheck").addEventListener("change",function(){state.gentle=el("gentleCheck").checked;saveState();renderToday()});
+el("stuckBtn").addEventListener("click",function(){el("stuckOut").textContent=STUCK[el("stuckSelect").value]||""});
+el("pickBtn").addEventListener("click",function(){
+  var t=pickForMe(parseInt(el("pickMinutes").value||30),el("pickEnergy").value,el("pickLocation").value.trim());
+  if(t){el("pickOut").textContent="Pick for Me: "+t.title+" ("+t.est+" min, "+t.area+", "+t.energy+" energy). Not right? Change the minutes and ask again.";focusTaskId=t.id}
+  else el("pickOut").textContent="Nothing fits in that time and energy right now. Try more minutes, or a lower energy level.";
+});
+function tickFocus(){
+  if(focusLeft<=0){el("focusOut").textContent="Done. Stopping is allowed. Well done for starting.";if(focusTaskId){state.focus.push({taskId:focusTaskId,date:todayStr(),minutes:5,planned:5})}focusTimer=null;saveState();return}
+  el("focusOut").textContent="Focus: "+String(Math.floor(focusLeft/60)).padStart(2,"0")+":"+String(focusLeft%60).padStart(2,"0")+" left. One step only.";
+  focusLeft--;focusTimer=setTimeout(tickFocus,1000);
+}
+el("focusStartBtn").addEventListener("click",function(){focusLeft=5*60;if(focusTimer)clearTimeout(focusTimer);tickFocus()});
+el("focusPauseBtn").addEventListener("click",function(){if(focusTimer){clearTimeout(focusTimer);focusTimer=null;el("focusOut").textContent="Focus paused."}});
+el("parkBtn").addEventListener("click",function(){
+  var txt=el("parkThought").value.trim();if(!txt)return;
+  state.dump.push({id:uid(),text:txt,created:todayStr(),status:"open"});el("parkThought").value="";saveState();renderDump();
+});
+el("closeDayBtn").addEventListener("click",function(){
+  var day=todayStr(),nxt=todayStr(addDays(new Date(),1)),moved=[];
+  state.tasks.forEach(function(t){if(t.status==="open"&&t.planned===day){t.planned=nxt;t.moved=(t.moved||0)+1;moved.push(t.title)}});
+  el("dayOut").textContent="Moved "+moved.length+" unfinished task(s) to tomorrow: "+(moved.join(", ")||"none");saveState();renderAll();
+});
+el("welcomeBtn").addEventListener("click",function(){
+  var last=parseD(state.lastSeen),cur=new Date(),moved=[],kept=[];
+  if(last&&(cur-last)/86400000>=3){var weekEnd=todayStr(addDays(cur,7));state.tasks.forEach(function(t){if(t.status!=="open")return;if(t.due&&t.due<=weekEnd)kept.push(t.title);else{t.status="later";moved.push(t.title)}})}
+  el("dayOut").textContent="Welcome Back — moved to Later: "+(moved.join(", ")||"none")+". Kept visible (due this week): "+(kept.join(", ")||"none")+". Nothing was deleted.";saveState();renderAll();
+});
+el("resetBtn").addEventListener("click",function(){
+  var done7=state.tasks.filter(function(t){return t.status==="done"&&t.completed&&parseD(t.completed)>=addDays(new Date(),-7)}).length;
+  alert("Weekly Reset — four short steps:\n1. Look back: "+done7+" task(s) completed in the last 7 days.\n2. Clear the decks: keep what matters, move the rest to Later, or let it go.\n3. Choose up to three things that matter for next week.\n4. Look ahead at the busiest days next week, and leave breathing room there.");
+});
+document.querySelectorAll("[data-filter]").forEach(function(btn){btn.addEventListener("click",function(){document.querySelectorAll("[data-filter]").forEach(function(b){b.classList.remove("active")});btn.classList.add("active");taskFilter=btn.getAttribute("data-filter");renderTasks()})});
+el("viewListBtn").addEventListener("click",function(){planView="list";el("viewListBtn").classList.add("active");el("viewTimeBtn").classList.remove("active");renderSchedule()});
+el("viewTimeBtn").addEventListener("click",function(){planView="time";el("viewTimeBtn").classList.add("active");el("viewListBtn").classList.remove("active");renderSchedule()});
+function taskAction(action){
+  var t=taskById(selectedTaskId);if(!t){alert("Tap a task card first to select it.");return}
+  if(action==="done"){t.status="done";t.completed=todayStr();var nxt=nextRepeat(t);if(nxt){var copy=JSON.parse(JSON.stringify(t));copy.id=uid();copy.status="open";copy.planned=nxt;copy.completed="";copy.steps=t.steps.map(function(s){return {text:s.text,done:false}});state.tasks.push(copy)}}
+  else if(action==="later")t.status="later";
+  else if(action==="tomorrow"){var base=parseD(t.planned)||new Date();t.planned=todayStr(addDays(base,1));t.moved=(t.moved||0)+1;if(t.moved>=3)alert("This task has been moved "+t.moved+" times. Could it be smaller, given a time, or decided as not needed?")}
+  saveState();renderAll();
+}
+el("doneBtn").addEventListener("click",function(){taskAction("done")});
+el("laterBtn").addEventListener("click",function(){taskAction("later")});
+el("tomorrowBtn").addEventListener("click",function(){taskAction("tomorrow")});
+el("threeBtn").addEventListener("click",function(){var t=taskById(selectedTaskId);if(t&&state.manualThree.indexOf(t.id)<0)state.manualThree.push(t.id);renderToday()});
+el("slotBtn").addEventListener("click",function(){
+  var t=taskById(selectedTaskId);if(!t)return;var slot=findSlot(t.planned||todayStr(),t.est);
+  el("taskOut").textContent=slot?("First free gap on "+(t.planned||todayStr())+" with breathing room: "+slot+". The task has not been moved yet."):"No free gap long enough. Try a shorter task, or move a flexible block.";
+});
+el("evBtn").addEventListener("click",function(){
+  state.events.push({id:uid(),title:el("evTitle").value,date:el("evDate").value||todayStr(),start:el("evStart").value,end:el("evEnd").value,kind:el("evKind").value,area:"Other"});
+  el("evTitle").value="";saveState();renderSchedule();
+});
+el("lateBtn").addEventListener("click",function(){
+  var mins=parseInt(el("lateMinutes").value||30),day=todayStr();
+  var fixed=state.events.filter(function(e){return e.date===day&&e.kind==="fixed"}),flex=state.events.filter(function(e){return e.date===day&&e.kind==="flexible"});
+  var kept=fixed.map(function(e){return e.title}),moved=[];
+  flex.forEach(function(e){var s=toMin(e.start)||540;if(s+mins<=1200)kept.push(e.title+" (moved later)");else moved.push(e.title)});
+  el("lateOut").textContent="Kept: "+(kept.join(", ")||"none")+". Moved to tomorrow: "+(moved.join(", ")||"none")+". Review this preview first. Nothing has been changed yet.";
+});
+el("habitBtn").addEventListener("click",function(){
+  if(!el("habitName").value.trim())return;
+  state.habits.push({id:uid(),name:el("habitName").value.trim(),tiny:el("habitTiny").value.trim()||"Do the smallest version",rest:[],comp:{}});
+  el("habitName").value="";el("habitTiny").value="";saveState();renderHabits();
+});
+function markHabit(kind){
+  var h=habitById(selectedHabitId);if(!h){alert("Tap a habit card first to select it.");return}
+  h.comp[todayStr()]=kind;el("habitOut").textContent=h.name+" marked "+kind+" today. Momentum is now "+habitMomentum(h)+"%.";saveState();renderHabits();
+}
+el("habitFullBtn").addEventListener("click",function(){markHabit("full")});
+el("habitTinyBtn").addEventListener("click",function(){markHabit("tiny")});
+el("habitBackBtn").addEventListener("click",function(){
+  var h=habitById(selectedHabitId);if(!h)return;h.comp[todayStr(addDays(new Date(),-1))]="full";saveState();renderHabits();
+});
+el("routineStartBtn").addEventListener("click",function(){
+  var r=null;state.routines.forEach(function(x){if(x.id===selectedRoutineId)r=x});if(!r){alert("Tap a routine card first to select it.");return}
+  routineId=r.id;routineIdx=0;showRoutineStep();
+});
+function showRoutineStep(){
+  var r=null;state.routines.forEach(function(x){if(x.id===routineId)r=x});if(!r)return;
+  var steps=r.steps;if(el("shortCheck").checked)steps=steps.filter(function(s){return s.essential});
+  if(routineIdx>=steps.length){el("routineOut").textContent="Routine done. Skipped steps are optional, not waiting to make you feel behind.";el("routineDots").innerHTML="";return}
+  var s=steps[routineIdx];el("routineOut").textContent="Step "+(routineIdx+1)+" of "+steps.length+": "+s.text+" ("+(s.minutes||5)+" minutes)";
+  el("routineDots").innerHTML=steps.map(function(_,i){return "<span class='dot "+(i<routineIdx?"full":i===routineIdx?"tiny":"")+"'>"+(i+1)+"</span>"}).join("");
+}
+el("routineNextBtn").addEventListener("click",function(){routineIdx++;showRoutineStep()});
+el("dumpBtn").addEventListener("click",function(){
+  if(!el("dumpEntry").value.trim())return;
+  state.dump.push({id:uid(),text:el("dumpEntry").value.trim(),created:todayStr(),status:"open"});el("dumpEntry").value="";saveState();renderDump();
+});
+function sortFeatured(action){
+  var first=state.dump.filter(function(d){return d.status==="open"})[0];if(!first){el("dumpOut").textContent="Nothing open to sort. Your head is clear.";return}
+  if(action==="today"||action==="task"){first.status="sorted";state.tasks.push({id:uid(),title:first.text,area:"Other",priority:action==="today"?"Medium":"Low",energy:"Medium",location:"",planned:todayStr(),due:"",est:15,actual:0,status:"open",repeat:"none",steps:[],created:todayStr(),completed:"",moved:0});el("dumpOut").textContent="Saved as a task: "+first.text}
+  else if(action==="later"){first.status="later";el("dumpOut").textContent="Parked in Later, out of sight on purpose: "+first.text}
+  else if(action==="note"){first.status="note";state.notes.push({id:uid(),text:first.text,created:todayStr()});el("dumpOut").textContent="Saved as a note: "+first.text}
+  else{first.status="letgo";el("dumpOut").textContent="Let go, on purpose: "+first.text}
+  saveState();renderAll();
+}
+el("sortTodayBtn").addEventListener("click",function(){sortFeatured("today")});
+el("sortTaskBtn").addEventListener("click",function(){sortFeatured("task")});
+el("sortLaterBtn").addEventListener("click",function(){sortFeatured("later")});
+el("sortNoteBtn").addEventListener("click",function(){sortFeatured("note")});
+el("sortGoBtn").addEventListener("click",function(){sortFeatured("letgo")});
+el("goalBtn").addEventListener("click",function(){
+  if(!el("goalTitle").value.trim())return;
+  state.goals.push({id:uid(),title:el("goalTitle").value.trim(),why:el("goalWhy").value.trim(),milestones:[],next:el("goalNext").value.trim()||"Pick one tiny first step"});
+  el("goalTitle").value="";el("goalWhy").value="";el("goalNext").value="";saveState();renderGoals();
+});
+el("winBtn").addEventListener("click",function(){
+  if(!el("winEntry").value.trim())return;
+  state.wins.push({id:uid(),text:el("winEntry").value.trim(),date:todayStr()});el("winEntry").value="";saveState();renderGoals();
+});
+el("chartBtn").addEventListener("click",renderCharts);
+el("saveProfileBtn").addEventListener("click",function(){
+  state.profile.name=el("profName").value;state.profile.theme=el("profTheme").value;state.profile.textSize=el("textSize").value;state.profile.motion=el("motionCheck").checked;saveState();applyTheme();el("profOut").textContent="Profile saved.";
+});
+el("backupBtn").addEventListener("click",function(){
+  var blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="calm-life-planner-backup.json";a.click();
+});
+el("restoreBtn").addEventListener("click",function(){el("restoreFile").click()});
+el("restoreFile").addEventListener("change",function(e){
+  var f=e.target.files[0];if(!f)return;var r=new FileReader();
+  r.onload=function(){try{var d=JSON.parse(r.result);var b=blankState();for(var k in b){if(d[k]!==undefined)b[k]=d[k]}state=b;saveState();renderAll();alert("Planner restored. Restore replaced your old data.")}catch(err){alert("Restore failed: "+err)}};
+  r.readAsText(f);
+});
+el("csvBtn").addEventListener("click",function(){
+  var rows=[["title","area","priority","status","planned","due","est_minutes","actual_minutes"]];
+  state.tasks.forEach(function(t){rows.push([t.title,t.area,t.priority,t.status,t.planned,t.due,t.est,t.actual])});
+  var csv=rows.map(function(r){return r.map(function(v){return '"'+String(v).replace(/"/g,'""')+'"'}).join(",")}).join("\n");
+  var blob=new Blob([csv],{type:"text/csv"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="calm-life-planner-tasks.csv";a.click();
+});
+el("sampleBtn").addEventListener("click",function(){state=sampleState();saveState();renderAll()});
+el("clearBtn").addEventListener("click",function(){state=blankState();saveState();renderAll()});
+el("resetBlankBtn").addEventListener("click",function(){state=blankState();saveState();renderAll()});
+renderAll();
+</script>
+</body>
+</html>
