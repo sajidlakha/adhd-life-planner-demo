@@ -870,7 +870,9 @@ function renderTaskEditor(){
   el("taskStepsList").querySelectorAll(".stepDel").forEach(function(b){b.addEventListener("click",function(){tsk.steps.splice(parseInt(b.getAttribute("data-i")),1);saveState();renderTaskEditor()})});
 }
 function renderGoals(){
-  var c=el("goalList");if(!c)return;var list=state.goals.slice();
+  var c=el("goalList");if(!c)return;
+  var wEl=el("winList");if(wEl)wEl.innerHTML=state.wins.map(function(w){return "<div class='taskcard' style='cursor:default'><div>"+esc(w.date)+" — "+esc(w.text)+"</div></div>"}).join("")||"<div class='empty'><b>No wins yet.</b>Add one, however small.</div>";
+  var list=state.goals.slice();
   if(goalFilter==="open")list=list.filter(function(g){return g.status!=="done"});
   else if(goalFilter==="done")list=list.filter(function(g){return g.status==="done"});
   c.innerHTML=list.map(function(g){
